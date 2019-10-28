@@ -1,9 +1,11 @@
 var express = require('express');
-var app     = express();
+var app = express();
+var exports = module.exports = {};
 
-app.get("/", function(req, res) {
-  res.status(200).send("Hello From Gitlab CI CD Tutorial");
+app.get('/', function(req, res){
+  res.send('Hello World');
 });
 
-app.listen(8080);
-
+var server = app.listen(8080, function(){
+  console.log('Magic is happening on port 8080');
+});
