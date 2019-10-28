@@ -18,11 +18,18 @@ build_project:
         - docker build -t $REGISTRY .
         - docker push $REGISTRY
 
+# test_project:
+#     stage: test
+#     script:
+#         - docker login -u arlindh -p $PASS registry.gitlab.com
+#         - docker pull $REGISTRY
+#         - docker run --name=$BRANCH -p 80:8080 -i $REGISTRY npm run ci
+
 test_project:
-    stage: test
-    script:
-        - docker login -u arlindh -p $PASS registry.gitlab.com
-        - docker pull $REGISTRY
-        - docker run --name=$BRANCH -p 80:8080 -i $REGISTRY npm run ci
+  stage: test
+  dependencies:
+    - npm
+  script:
+    - npm test
 
 
