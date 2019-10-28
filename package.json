@@ -1,14 +1,13 @@
 {
-  "name": "workspace",
+  "name": "node-js",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start-background": "forever start app/index_cicd_tutorial.js",
     "start": "node index.js",
     "stop": "forever stopall",
     "start-server": "node app/index_cicd_tutorial.js",
-    "test": "./node_modules/.bin/jasmine-node spec ",
+    "test": "jasmine-node spec ",
     "stop-server": "killall node",
     "ci": "start-server-and-test start-server http://localhost:8080 test"
   },
@@ -21,5 +20,14 @@
   "devDependencies": {
     "jasmine-node": "^1.16.2",
     "start-server-and-test": "^1.5.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/arlindh/node-js.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/arlindh/node-js/issues"
+  },
+  "homepage": "https://gitlab.com/arlindh/node-js#readme",
+  "description": ""
 }

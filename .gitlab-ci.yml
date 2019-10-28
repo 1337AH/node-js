@@ -3,8 +3,8 @@ services:
   - docker:dind
 
 variables:
-  WORK_DIR: ${CI_PROJECT_NAME}
-  BRANCH: ${CI_COMMIT_REF_NAME}
+  WORK_DIR: $CI_PROJECT_NAME
+  BRANCH: $CI_COMMIT_REF_NAME
   REGISTRY: registry.gitlab.com/arlindh/node-js
 
 stages:
