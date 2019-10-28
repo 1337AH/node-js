@@ -28,7 +28,6 @@ build_project:
 test_project:
   stage: test
   dependencies:
-    - npm
   script:
     - npm test
 
