@@ -1,5 +1,5 @@
 image: docker:latest
-services: 
+services:
   - docker:dind
 
 variables:
@@ -12,11 +12,10 @@ stages:
   - test
 
 build_project:
+    image: node:latest
     stage: build
     script:
-        - docker login -u arlindh -p $PASS registry.gitlab.com
-        - docker build -t $REGISTRY .
-        - docker push $REGISTRY
+        - npm install
 
 # test_project:
 #     stage: test
@@ -26,9 +25,11 @@ build_project:
 #         - docker run --name=$BRANCH -p 80:8080 -i $REGISTRY npm run ci
 
 test_project:
+  image: node:latest
   stage: test
-  dependencies:
   script:
+    - ls
     - npm test
+
 
 
