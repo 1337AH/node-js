@@ -19,13 +19,6 @@ test_project:
     script:
         - npm test
 
-#create_merge_request:
- # stage: createMR
- # script:
-   # - chmod +x ./commit.sh
-   # - 'echo Merge request opened by $GITLAB_USER_NAME'
-   # - ./commit.sh
-
 create_merge_request:
     before_script: []   # We do not need any setup work, let's remove the global one (if any)
     stage: createMR
