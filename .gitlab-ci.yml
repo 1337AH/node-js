@@ -2,11 +2,6 @@ image: docker:latest
 services:
   - docker:dind
 
-variables:
-  WORK_DIR: $CI_PROJECT_NAME
-  BRANCH: $CI_COMMIT_REF_NAME
-  REGISTRY: registry.gitlab.com/arlindh/node-js
-
 stages:
   - build
   - test
@@ -18,23 +13,15 @@ build_project:
     script:
         - npm install
 
-# test_project:
-#     stage: test
-#     script:
-#         - docker login -u arlindh -p $PASS registry.gitlab.com
-#         - docker pull $REGISTRY
-#         - docker run --name=$BRANCH -p 80:8080 -i $REGISTRY npm run ci
-
 test_project:
-  image: node:latest
-  stage: test
-  script:
-    - ls
-    - npm test
+    image: node:latest
+    stage: test
+    script:
+        - npm test
 
 create_merge_request:
   stage: createMR
   script:
     - 'echo Merge request opened by $GITLAB_USER_NAME'
-    - ~/commit.sh
+    - ./commit.sh
 
