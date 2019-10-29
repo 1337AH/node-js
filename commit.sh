@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # This script was adapted from:
 # https://about.gitlab.com/2017/09/05/how-to-automatically-create-a-new-mr-on-gitlab-with-gitlab-ci/
 
