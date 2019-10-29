@@ -5,7 +5,7 @@ services:
 stages:
   - build
   - test
-  - createMR
+  - openMR
 
 build_project:
     image: node:latest
@@ -21,7 +21,7 @@ test_project:
 
 create_merge_request:
     before_script: []   # We do not need any setup work, let's remove the global one (if any)
-    stage: createMR
+    stage: openMR
     only:
       - /^feature\/*/   # We have a very strict naming convention
     script:
