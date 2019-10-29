@@ -8,9 +8,7 @@
  \"allow_collaboration\": true,
  \"subscribed\" : true,
  \"title\": \"${GITLAB_USER_NAME} merge request for: ${CI_COMMIT_REF_SLUG}\" }"; 
-
- RESULT="curl -X POST "${CI_API_V4_URL}${CI_PROJECT_ID}/merge_requests" -H "PRIVATE-TOKEN:${PRIVATE_TOKEN}" -H "Content-Type: application/json" -d "${BODY}""; 
- eval $RESULT;
+ 
+RESULT=$(curl -X POST "${CI_API_V4_URL}${CI_PROJECT_ID}/merge_requests" -H "PRIVATE-TOKEN:${PRIVATE_TOKEN}" -H "Content-Type: application/json" -D "${BODY}");
+eval $RESULT; 
  echo $RESULT;
-
-
