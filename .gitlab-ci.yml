@@ -33,9 +33,7 @@ test_project:
     - npm test
 
 create_merge_request:
-  stage: createMr
-  tags:
-    - autoMR
+  stage: createMR
   script:
     - 'echo Merge request opened by $GITLAB_USER_NAME'
     - ~/commit.sh
