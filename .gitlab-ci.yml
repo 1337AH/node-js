@@ -10,6 +10,7 @@ variables:
 stages:
   - build
   - test
+  - createMR
 
 build_project:
     image: node:latest
@@ -31,5 +32,11 @@ test_project:
     - ls
     - npm test
 
-
+create_merge_request:
+  stage: createMr
+  tags:
+    - autoMR
+  script:
+    - 'echo Merge request opened by $GITLAB_USER_NAME'
+    - ~/commit.sh
 
