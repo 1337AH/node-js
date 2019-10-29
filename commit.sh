@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # TODO determine URL from git repository URL
 [[ $HOST =~ ^https?://[^/]+ ]] && HOST="${BASH_REMATCH[0]}/api/v4/projects/"
 
