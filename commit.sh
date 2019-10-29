@@ -1,3 +1,4 @@
+#!/bin/sh
  BODY="{ \"project_id\": ${CI_PROJECT_ID},
  \"source_branch\": \"${CI_COMMIT_REF_NAME}\",
  \"target_branch\": \"${TARGET_BRANCH}\",
