@@ -23,7 +23,7 @@ test_project:
 create_merge_request:
   stage: createMR
   before_script:
-   - apt install curl
+   - apk add --update curl && rm -rf /var/cache/apk/*
   script:
     - chmod +x ./commit.sh
     - 'echo Merge request opened by $GITLAB_USER_NAME '
