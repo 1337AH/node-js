@@ -19,10 +19,12 @@ test_project:
     script:
         - npm test
 
+# Create a pull request on pipeline success
 create_merge_request:
   stage: createMR
+  before_script:
+   - apk add --update curl && rm -rf /var/cache/apk/*
   script:
     - chmod +x ./commit.sh
-    - 'echo Merge request opened by $GITLAB_USER_NAME'
+    - 'echo Merge request opened by $GITLAB_USER_NAME '
     - ./commit.sh
-
