@@ -22,6 +22,8 @@ test_project:
 # Create a pull request on pipeline success
 create_merge_request:
   stage: createMR
+  before_script:
+   - apt install curl
   script:
     - chmod +x ./commit.sh
     - 'echo Merge request opened by $GITLAB_USER_NAME '
