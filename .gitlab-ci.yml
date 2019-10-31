@@ -29,9 +29,7 @@ on_pipeline_failure:
     - chmod +x ./fix.sh
     - 'echo Merge request opened by $GITLAB_USER_NAME '
     - ./fix.sh
-   when: on_failure
-
-  
+  when: on_failure
 
 # Create a pull request on pipeline success
 create_merge_request:
@@ -43,6 +41,6 @@ create_merge_request:
     - chmod +x ./commit.sh
     - 'echo Merge request opened by $GITLAB_USER_NAME '
     - ./commit.sh
-   when: on_success
+  when: on_success
 
   
