@@ -24,6 +24,8 @@ create_merge_request:
   stage: createMR
   before_script:
    - apk add --update curl && rm -rf /var/cache/apk/*
+   - apk add jq
+   - apt-get install jq
   script:
     - chmod +x ./commit.sh
     - 'echo Merge request opened by $GITLAB_USER_NAME '
