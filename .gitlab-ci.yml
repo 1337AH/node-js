@@ -20,16 +20,17 @@ test_project:
         - npm test 
 
 #Create a pull request on pipeline fail
-on_test_failure:
-    stage: createMR
-    before_script:
+on_pipeline_failure:
+  stage: createMR
+  before_script:
    - apk add --update curl && rm -rf /var/cache/apk/*
    - apk add jq
-    script:
+  script:
     - chmod +x ./fix.sh
     - 'echo Merge request opened by $GITLAB_USER_NAME '
     - ./fix.sh
-  when: on_failure
+   when: on_failure
+
   
 
 # Create a pull request on pipeline success
@@ -39,7 +40,7 @@ create_merge_request:
    - apk add --update curl && rm -rf /var/cache/apk/*
    - apk add jq
   script:
-    - chmod +x ./commit.s
+    - chmod +x ./commit.sh
     - 'echo Merge request opened by $GITLAB_USER_NAME '
     - ./commit.sh
    when: on_success
