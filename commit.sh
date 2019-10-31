@@ -2,6 +2,6 @@ RESULT=$(curl -d '{"id":15033822, "source_branch":"dev", "target_branch":"stagin
 
 eval $RESULT;
 echo ${CI_PROJECT_ID};
-echo ${PRIVATE_TOKEN};
+echo ${GITLAB_PRIVATE_TOKEN};
 echo $RESULT;
 
