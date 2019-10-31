@@ -14,6 +14,6 @@ RUN apk add --no-cache \
 
 COPY . /usr/src/app
 COPY commit.sh /usr/bin/
-CMD ["commit.sh"]
+##CMD ["commit.sh"]
 EXPOSE 8080
 
