@@ -17,7 +17,7 @@ test_project:
     image: node:latest
     stage: test
     script:
-        - npm test 
+        - npm est 
 
 #Create a pull request on pipeline fail
 on_pipeline_failure:
