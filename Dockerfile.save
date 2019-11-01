@@ -8,7 +8,7 @@ ARG NODE_ENV
 ENV NODE_ENV $NODE_ENV
 COPY package.json /usr/src/app/
 RUN npm install
-#RUN curl -sSL https://sdk.cloud.google.com | bash
+
 COPY . /usr/src/app
 COPY commit.sh /usr/bin/
 ##CMD ["commit.sh"]

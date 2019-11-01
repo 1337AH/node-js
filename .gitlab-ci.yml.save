@@ -43,3 +43,9 @@ create_merge_request:
     - 'echo Merge request opened by $GITLAB_USER_NAME '
     - ./commit.sh
   when: on_success
+
+#push to master and deploy
+finalize:
+  stage: deploy
+  before_script: 
+ 
