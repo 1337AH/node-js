@@ -1,0 +1,60 @@
+image: docker:latest
+services:
+  - docker:dind
+
+stages:
+  - build
+  - test
+  - createMR
+  - deploy
+
+build_project:
+    image: node:latest
+    stage: build
+    script:
+        - npm install
+
+test_project:
+    image: node:latest
+    stage: test
+    script:
+        - npm test 
+
+#Create a pull request on pipeline fail
+on_pipeline_failure:
+  stage: createMR
+  before_script:
+   - apk add --update curl && rm -rf /var/cache/apk/*
+   - apk add jq
+  script:
+    - chmod +x ./fix.sh
+    - 'echo Merge request opened by $GITLAB_USER_NAME '
+    - ./fix.sh
+  when: on_failure
+
+# Create a pull request on pipeline success
+create_merge_request:
+  stage: createMR
+  before_script:
+   - apk add --update curl && rm -rf /var/cache/apk/*
+   - apk add jq
+  script:
+    - chmod +x ./commit.sh
+    - 'echo Merge request opened by $GITLAB_USER_NAME '
+    - ./commit.sh
+  when: on_success
+
+#push to master and deploy
+finalize:
+  image: 
+  stage: deploy
+  before_script:
+   - apk add --update \ python \ which \ bash
+   - curl -sSL https://sdk.cloud.google.com | bash ENV PATH $PATH:/root/google-cloud-sdk/bin
+   - gcloud components install kubectl
+  script:
+   - gcloud auth configure-docker
+   - docker build -t gcr.io/${PROJECT_ID}/node-js:v2
+   - docker push gcr.io/${PROJECT_ID}/hello-app:v2
+   - kubectl set image deployment/node-web node-js=gcr.io/${PROJECT_ID}/node-js:v2
+
