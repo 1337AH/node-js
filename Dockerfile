@@ -1,4 +1,4 @@
-FROM node:7.9
+FROM alpine:latest
 
 LABEL maintainer="ahoxha.01@gmail.com"
 
