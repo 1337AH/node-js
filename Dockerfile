@@ -1,4 +1,4 @@
-FROM node:7.9
+FROM alpine:latest
 
 WORKDIR /usr/src/app
 
