@@ -1,5 +1,4 @@
 var request = require("request");
-var helloWorld = require("../app/index_cicd_tutorial.js")
 var base_url = "http://localhost:8080/"
 
 describe("Hello World Server", function() {
