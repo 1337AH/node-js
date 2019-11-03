@@ -1,0 +1,16 @@
+#Git
+.git
+.gitignore
+
+#build step outputs
+build
+
+#docker configuration
+Dockerfile
+
+
+# NPM dependencies
+node_modules
+
+#
+logging.conf

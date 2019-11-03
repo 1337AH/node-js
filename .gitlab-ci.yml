@@ -6,6 +6,7 @@ stages:
   - build
   - test
   - createMR
+  - deploy
 
 build_project:
     image: node:latest
@@ -16,8 +17,9 @@ build_project:
 test_project:
     image: node:latest
     stage: test
+    allow_failure: false
     script:
-        - npm test 
+        - npm test --progress false --watch false 
 
 #Create a pull request on pipeline fail
 on_pipeline_failure:
@@ -42,5 +44,3 @@ create_merge_request:
     - 'echo Merge request opened by $GITLAB_USER_NAME '
     - ./commit.sh
   when: on_success
-
-  
