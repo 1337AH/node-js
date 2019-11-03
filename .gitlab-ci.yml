@@ -17,8 +17,9 @@ build_project:
 test_project:
     image: node:latest
     stage: test
+    allow_failure: false
     script:
-        - npm test 
+        - npm test --progress false --watch false 
 
 #Create a pull request on pipeline fail
 on_pipeline_failure:
