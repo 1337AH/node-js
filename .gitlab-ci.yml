@@ -1,4 +1,8 @@
 image: docker:latest
+
+variables: 
+  REPOSITORY_URL: 397937580987.dkr.ecr.us-east-2.amazonaws.com/node-js
+
 services:
   - docker:dind
 
@@ -44,3 +48,15 @@ create_merge_request:
     - 'echo Merge request opened by $GITLAB_USER_NAME '
     - ./commit.sh
   when: on_success
+
+#deploy to production - AWS
+toAWS:
+  stage: deploy
+  before_script:
+   - apk add --no-cache py-pip
+   - pip install awscli
+  script:     
+    - $(aws ecr get-login --no-include-email --region us-east-2)
+    - docker build -t $REPOSITORY_URL .
+    - docker push $REPOSITORY_URL
+
