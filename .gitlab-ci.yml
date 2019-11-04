@@ -59,4 +59,5 @@ toAWS:
     - $(aws ecr get-login --no-include-email --region us-east-2)
     - docker build -t $REPOSITORY_URL .
     - docker push $REPOSITORY_URL
+    - aws ecs update-service --cluster node-js-cluster --service node-js-service --force-new-deployment
 
