@@ -70,7 +70,7 @@ deploytostag:
    - pip install awscli
    - $(aws ecr get-login --no-include-email --region us-east-2)
   script: 
-    - docker build -t $REPOSITORY_URL
+    - docker build -t $REPOSITORY_URL .
     - docker tag node-js:staging 397937580987.dkr.ecr.us-east-2.amazonaws.com/node-js:staging
     - docker push $REPOSITORY_URL
     - aws ecs update-service --cluster nodejs-staging --service node-js-service1 --force-new-deployment --region us-east-2
