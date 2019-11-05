@@ -51,8 +51,8 @@ create_merge_request:
   when: on_success
 
 # create a push request from staging to master
-create_merge_request:
-  stage: createMR
+branching_to_master:
+  stage: pushToMaster
   before_script:
    - apk add --update curl && rm -rf /var/cache/apk/*
    - apk add jq
@@ -62,7 +62,7 @@ create_merge_request:
     - ./prod.sh
    
 #deploy to staging - AWS
-create_merge_request:
+deploytostag:
   stage: deploy
   before_script: 
    - apk add --no-cache py-pip
@@ -74,7 +74,7 @@ create_merge_request:
     - aws ecs update-service --cluster nodejs-staging --service node-js-service1 --force-new-deployment --region us-east-2
    
 #deploy to production - AWS
-create_merge_request:
+deploytoprod:
   stage: deploy
   before_script:
    - apk add --no-cache py-pip
