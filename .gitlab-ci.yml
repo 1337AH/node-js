@@ -10,6 +10,7 @@ stages:
   - build
   - test
   - createMR
+  - pushToMaster
   - deploytostaging
   - deploytoprod
 
@@ -50,7 +51,7 @@ create_merge_request:
 
 # create a push request from staging to master
 create_merge_request:
-  stage: createMR
+  stage: pushToMaster
   script:
     - chmod +x ./prod.sh
     - 'echo Merge request opened by $GITLAB_USER_NAME '
