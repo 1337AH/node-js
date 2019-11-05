@@ -1,4 +1,8 @@
 image: docker:latest
+
+variables: 
+  REPOSITORY_URL: 397937580987.dkr.ecr.us-east-2.amazonaws.com/node-js
+
 services:
   - docker:dind
 
@@ -6,6 +10,8 @@ stages:
   - build
   - test
   - createMR
+  - pushToMaster
+  - deploy
 
 build_project:
     image: node:latest
@@ -16,13 +22,66 @@ build_project:
 test_project:
     image: node:latest
     stage: test
+    allow_failure: false
     script:
-        - npm test
+        - npm test --progress false --watch false 
 
+#Create a push request on pipeline fail
+on_pipeline_failure:
+  stage: createMR
+  before_script:
+   - apk add --update curl && rm -rf /var/cache/apk/*
+   - apk add jq
+  script:
+    - chmod +x ./fix.sh
+    - 'echo Merge request opened by $GITLAB_USER_NAME '
+    - ./fix.sh
+  when: on_failure
+
+# Create a push request on pipeline success
 create_merge_request:
   stage: createMR
+  before_script:
+   - apk add --update curl && rm -rf /var/cache/apk/*
+   - apk add jq
   script:
     - chmod +x ./commit.sh
-    - 'echo Merge request opened by $GITLAB_USER_NAME'
+    - 'echo Merge request opened by $GITLAB_USER_NAME '
     - ./commit.sh
+  when: on_success
+
+# create a push request from staging to master
+branching_to_master:
+  stage: pushToMaster
+  before_script:
+   - apk add --update curl && rm -rf /var/cache/apk/*
+   - apk add jq
+  script:
+    - chmod +x ./prod.sh
+    - 'echo Merge request opened by $GITLAB_USER_NAME '
+    - ./prod.sh
+   
+#deploy to staging - AWS
+deploytostag:
+  stage: deploy
+  before_script: 
+   - apk add --no-cache py-pip
+   - pip install awscli
+   - $(aws ecr get-login --no-include-email --region us-east-2)
+  script: 
+    - docker build -t $REPOSITORY_URL
+    - docker push $REPOSITORY_URL:staging
+    - aws ecs update-service --cluster nodejs-staging --service node-js-service1 --force-new-deployment --region us-east-2
+   
+#deploy to production - AWS
+deploytoprod:
+  stage: deploy
+  before_script:
+   - apk add --no-cache py-pip
+   - pip install awscli
+   - $(aws ecr get-login --no-include-email --region us-east-2)
+  script:     
+    - docker build -t $REPOSITORY_URL .
+    - docker push $REPOSITORY_URL
+    - aws ecs update-service --cluster node-js-cluster --service node-js-service --force-new-deployment --region us-east-2
 
