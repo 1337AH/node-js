@@ -11,8 +11,7 @@ stages:
   - test
   - createMR
   - pushToMaster
-  - deploytostaging
-  - deploytoprod
+  - deploy
 
 build_project:
     image: node:latest
@@ -59,7 +58,7 @@ create_merge_request:
    
 #deploy to staging - AWS
 create_merge_request:
-  stage: deploytostaging
+  stage: deploy
   before_script: 
    - apk add --no-cache py-pip
    - pip install awscli
@@ -71,10 +70,13 @@ create_merge_request:
    
 #deploy to production - AWS
 toAWS1:
-  stage: deploytoprod
+  stage: deploy
+  before_script:
+   - apk add --no-cache py-pip
+   - pip install awscli
+   - $(aws ecr get-login --no-include-email --region us-east-2)
   script:     
     - docker build -t $REPOSITORY_URL .
     - docker push $REPOSITORY_URL
     - aws ecs update-service --cluster node-js-cluster --service node-js-service --force-new-deployment --region us-east-2
-  when: on_success
 
