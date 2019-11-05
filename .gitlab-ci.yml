@@ -52,7 +52,7 @@ create_merge_request:
 
 # create a push request from staging to master
 create_merge_request:
-  stage: pushToMaster
+  stage: createMR
   before_script:
    - apk add --update curl && rm -rf /var/cache/apk/*
    - apk add jq
