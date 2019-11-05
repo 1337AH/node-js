@@ -68,7 +68,6 @@ create_merge_request:
     - docker push $REPOSITORY_URL:staging
     - aws ecs update-service --cluster nodejs-staging --service node-js-service1 --force-new-deployment --region us-east-2
    
-
 #deploy to production - AWS
 toAWS1:
   stage: deploytoprod
@@ -77,5 +76,4 @@ toAWS1:
     - docker push $REPOSITORY_URL
     - aws ecs update-service --cluster node-js-cluster --service node-js-service --force-new-deployment --region us-east-2
   when: on_success
-  only: master
 
