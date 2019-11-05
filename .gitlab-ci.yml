@@ -74,7 +74,7 @@ create_merge_request:
     - aws ecs update-service --cluster nodejs-staging --service node-js-service1 --force-new-deployment --region us-east-2
    
 #deploy to production - AWS
-toAWS1:
+create_merge_request:
   stage: deploy
   before_script:
    - apk add --no-cache py-pip
