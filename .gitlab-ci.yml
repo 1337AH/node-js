@@ -2,6 +2,7 @@ image: docker:latest
 
 variables: 
   REPOSITORY_URL: 397937580987.dkr.ecr.us-east-2.amazonaws.com/node-js
+  REPOSITORY_URL1: 397937580987.dkr.ecr.us-east-2.amazonaws.com/node-staging
 
 services:
   - docker:dind
@@ -70,8 +71,8 @@ deploytostag:
    - pip install awscli
    - $(aws ecr get-login --no-include-email --region us-east-2)
   script: 
-    - docker build -t $REPOSITORY_URL:staging .
-    - docker push $REPOSITORY_URL
+    - docker build -t $REPOSITORY_URL1 .
+    - docker push $REPOSITORY_URL1
     - aws ecs update-service --cluster nodejs-staging --service node-js-service1 --force-new-deployment --region us-east-2
    
 #deploy to production - AWS
