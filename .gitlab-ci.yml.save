@@ -1,0 +1,63 @@
+image: docker:latest
+
+variables: 
+  REPOSITORY_URL: 397937580987.dkr.ecr.us-east-2.amazonaws.com/node-js
+
+services:
+  - docker:dind
+
+stages:
+  - build
+  - test
+  - createMR
+  - deploy
+
+build_project:
+    image: node:latest
+    stage: build
+    script:
+        - npm install
+
+test_project:
+    image: node:latest
+    stage: test
+    allow_failure: false
+    script:
+        - npm test --progress false --watch false 
+
+#Create a pull request on pipeline fail
+on_pipeline_failure:
+  stage: createMR
+  before_script:
+   - apk add --update curl && rm -rf /var/cache/apk/*
+   - apk add jq
+  script:
+    - chmod +x ./fix.sh
+    - 'echo Merge request opened by $GITLAB_USER_NAME '
+    - ./fix.sh
+  when: on_failure
+
+# Create a pull request on pipeline success
+create_merge_request:
+  stage: createMR
+  before_script:
+   - apk add --update curl && rm -rf /var/cache/apk/*
+   - apk add jq
+  script:
+    - chmod +x ./commit.sh
+    - 'echo Merge request opened by $GITLAB_USER_NAME '
+    - ./commit.sh
+  when: on_success
+
+#deploy to production - AWS
+toAWS:
+  stage: deploy
+  before_script:
+   - apk add --no-cache py-pip
+   - pip install awscli
+  script:     
+    - $(aws ecr get-login --no-include-email --region us-east-2)
+    
+    - docker build -t $REPOSITORY_URL .
+    - docker push $REPOSITORY_URL
+
