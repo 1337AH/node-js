@@ -3,7 +3,7 @@ var app = express();
 var exports = module.exports = {};
 
 app.get('/', function(req, res){
-  res.send('Hello AWS');
+  res.send('Introducing Amazon Web Services');
 });
 
 var server = app.listen(8080, function(){
