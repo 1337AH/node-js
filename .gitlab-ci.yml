@@ -87,3 +87,4 @@ deploytoprod:
     - docker push $REPOSITORY_URL
     - aws ecs update-service --cluster node-js-cluster --service node-js-service --force-new-deployment --region us-east-2
 
+#END
